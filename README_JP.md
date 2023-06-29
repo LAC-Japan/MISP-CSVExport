@@ -2,7 +2,7 @@
 
 MISP project: <http://www.misp-project.org/>
 
-＃＃ 概要
+## 概要
 この Python スクリプトはMISP (マルウェア情報共有プラットフォーム) からデータを検索し、結果を CSV ファイルにエクスポートします。 
 検索パラメータは、スクリプトの実行時に引数として指定できます。
 
@@ -14,13 +14,16 @@ MISP project: <http://www.misp-project.org/>
 
 このソフトウェアは BSD ライセンスに基づいてリリースされています。LICENSE.txt を参照してください。
 
-＃＃ 動作確認済み環境
+## 動作確認済み環境
 
 * Python 3.10
 * PyMISP 2.4.172
 
 ## インストール
 1. リポジトリのクローンを作成します。
+```
+git clone https://github.com/LAC-Japan/MISP-CSVExport
+```
 2. pip を使用して、必要な Python ライブラリをインストールします。
 ```
 pip3 install pymisp
@@ -30,7 +33,7 @@ pip3 install pymisp
 クライアント証明書による認証がMISPに設定されている場合、CERT FILE PATHとKEY FILE PATHも指定します。
 5. 必要な引数を指定してスクリプトを実行します。
 
-＃＃ 使用方法
+## 使用方法
 
 ```
 python3 misp-csvexport.py --from <日付文字列> --to <日付文字列> -c category -t type -v value -T tag1 tag2

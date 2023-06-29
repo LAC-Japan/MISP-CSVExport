@@ -21,6 +21,9 @@ This software is released under the BSD License, see LICENSE.txt.
 
 ## Installation
 1. Clone the repository.
+```
+git clone https://github.com/LAC-Japan/MISP-CSVExport
+```
 2. Install the required Python libraries using pip.
 ```
 pip3 install pymisp
