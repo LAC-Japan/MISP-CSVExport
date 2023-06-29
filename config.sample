@@ -1,0 +1,11 @@
+[MISP]
+; MISP URL
+URL = https://hoge
+
+; MISP authkey
+AUTHKEY = fuga
+
+; Client certificate
+; If MISP client certificate authentication is set, enter the absolute path.
+CERT_FILE_PATH = 
+KEY_FILE_PATH = 
