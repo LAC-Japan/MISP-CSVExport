@@ -6,9 +6,8 @@ MISP project: <http://www.misp-project.org/>
 This Python script retrieves data from MISP (Malware Information Sharing Platform) and exports the results to a CSV file. 
 The search parameters can be specified as arguments when running the script.
 
-- Search data from MISP based on specified parameters.
+- Retrieves data from MISP based on parameters specified in arguments.
 - Export the search results to a CSV file.
-- Search parameters can be specified as arguments.
 
 ## License
 
