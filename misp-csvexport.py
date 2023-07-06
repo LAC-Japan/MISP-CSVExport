@@ -74,9 +74,18 @@ def main() -> None:
         print('The argument --all is ignored in this case.')
         exit(1)
 
+    if "ISO8601" in conf["MISP"]:
+        iso8601 = conf.getboolean('MISP','ISO8601')
+    else:
+        iso8601 =False
+
     # Parse timestamp
-    ft = parse_datetime(args.from_timestamp)
-    tt = parse_datetime(args.to_timestamp)
+    if iso8601:
+        ft=datetime.datetime.fromisoformat(args.from_timestamp)
+        tt=datetime.datetime.fromisoformat(args.to_timestamp)
+    else:
+        ft = parse_datetime(args.from_timestamp)
+        tt = parse_datetime(args.to_timestamp)
     timestamp = (
         None
         if ft is None and tt is None
