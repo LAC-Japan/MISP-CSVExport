@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+__version__ = "V2023.07.06"
 
 # Standard modules
 import warnings
@@ -30,10 +31,10 @@ CSV_HEADER = [
 
 # date format pattern
 DATE_FORMAT = {
-	8: '%Y%m%d',
-	10: '%Y%m%d%H',
-	12: '%Y%m%d%H%M',
-	14: '%Y%m%d%H%M%S',
+    8: '%Y%m%d',
+    10: '%Y%m%d%H',
+    12: '%Y%m%d%H%M',
+    14: '%Y%m%d%H%M%S',
 }
 
 
@@ -44,6 +45,8 @@ def main() -> None:
     # Arguments parse
     parser = argparse.ArgumentParser(
         description='Search MISP for specific parameters.')
+    parser.add_argument('--version', action='store_true',
+                        default=False, help='Print version')
     parser.add_argument('--from', dest='from_timestamp', type=str,
                         help='From timestamp(UTC) to search for')
     parser.add_argument('--to', dest='to_timestamp',
@@ -64,6 +67,10 @@ def main() -> None:
     args = parser.parse_args()
 
     # Check arguments
+    if args.version:
+        print(__version__)
+        exit()
+
     arguments_specified = is_arguments_specified(args)
     if not args.all and not arguments_specified:
         print('No search criteria specified.')
@@ -75,17 +82,13 @@ def main() -> None:
         exit(1)
 
     if "ISO8601" in conf["MISP"]:
-        iso8601 = conf.getboolean('MISP','ISO8601')
+        iso8601 = conf.getboolean('MISP', 'ISO8601')
     else:
-        iso8601 =False
+        iso8601 = False
 
     # Parse timestamp
-    if iso8601:
-        ft=datetime.datetime.fromisoformat(args.from_timestamp)
-        tt=datetime.datetime.fromisoformat(args.to_timestamp)
-    else:
-        ft = parse_datetime(args.from_timestamp)
-        tt = parse_datetime(args.to_timestamp)
+    ft = parse_datetime(args.from_timestamp, iso8601)
+    tt = parse_datetime(args.to_timestamp, iso8601)
     timestamp = (
         None
         if ft is None and tt is None
@@ -190,7 +193,7 @@ def _match_data(check_value: Optional[str], target_value: str) -> bool:
     return (check_value == target_value)
 
 
-def parse_datetime(target_date: str) -> Optional[dt]:
+def parse_datetime(target_date: str, is_isoformat: bool) -> Optional[dt]:
     """ Parse str to datetime """
 
     if target_date is None:
@@ -198,8 +201,10 @@ def parse_datetime(target_date: str) -> Optional[dt]:
 
     # Parse to datetime
     try:
-
-        return dt.strptime(target_date, DATE_FORMAT[len(target_date)]).replace(tzinfo=datetime.timezone.utc)
+        if is_isoformat:
+            return datetime.datetime.fromisoformat(target_date)
+        else:
+            return dt.strptime(target_date, DATE_FORMAT[len(target_date)]).replace(tzinfo=datetime.timezone.utc)
 
     except Exception:
         print(f'Invalid date format: {target_date}')
